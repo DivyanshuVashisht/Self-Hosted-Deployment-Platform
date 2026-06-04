@@ -1,0 +1,16 @@
+{{- if .Values.serviceMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "self-hosted-app.fullname" . }}
+  labels:
+    {{- include "self-hosted-app.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "self-hosted-app.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      interval: {{ .Values.serviceMonitor.interval | default "15s" }}
+      path: {{ .Values.serviceMonitor.path | default "/metrics" }}
+{{- end }}

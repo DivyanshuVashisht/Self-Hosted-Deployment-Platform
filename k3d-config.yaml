@@ -1,0 +1,13 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: self-hosted-cluster
+servers: 1
+agents: 1
+kubeAPI:
+  hostIP: "127.0.0.1"
+  hostPort: "6445"
+ports:
+  - port: 8082:80
+    nodeFilters:
+      - loadbalancer
